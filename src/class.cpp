@@ -100,10 +100,10 @@ bool Obstacle::noHealth() {
 //############################################################
 //                     Game Variables
 //############################################################
-SpaceShip * GameVariable::playerShip = new SpaceShip(BOUNDARY_LENGTH/2, BOUNDARY_HEIGHT-2);
+SpaceShip* GameVariable::playerShip = new SpaceShip(BOUNDARY_LENGTH/2, BOUNDARY_HEIGHT-2);
 bool GameVariable::gameOver = false;
-std::vector<Obstacle *> GameVariable::obstacleList;
-std::vector<Bullet *> GameVariable::bulletList;
+std::vector<Obstacle*> GameVariable::obstacleList;
+std::vector<Bullet*> GameVariable::bulletList;
 
 
 //############################################################

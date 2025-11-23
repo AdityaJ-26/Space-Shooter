@@ -131,17 +131,19 @@ void playerCollisionCheck() {
 }  
 void bulletHitCheck() {
     auto& bullets = GameVariable::bulletList;
-    for (int i=0; i<bullets.size(); i++) {
+    for (int i=0; i<bullets.size();) {
+        bool hit = false;
         for (auto& obstacle : GameVariable::obstacleList) {
             int x = obstacle->getX(), y = obstacle->getY();
-            if (bullets[i]->matchCoordinates(x, y)) {
+            if (bullets[i]->matchCoordinates(x, y) || bullets[i]->matchCoordinates(x, y-1)) {
                 obstacle->healthUpdate(B2O_HIT_DAMAGE);
                 delete bullets[i];
                 bullets.erase(bullets.begin()+i);
-                i--;
+                hit = true;
                 break;
             }
         }
+        if (!hit) i++;
     }
 }
 void entityCheck() {
