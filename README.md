@@ -18,7 +18,9 @@ A retro game created in C++.
 ## **Compiling**
 Don't have a CMake or any auto build files\
 Use command below in terminal inside main directory to manually compile code\
-```g++ main.cpp src\functions.cpp src\class.cpp -o game.exe```\
+```
+g++ main.cpp src\functions.cpp src\class.cpp -o game.exe
+```
 Run the game.exe file and play
 ## **Future Improvements**
 - [ ] Input buffer handling
