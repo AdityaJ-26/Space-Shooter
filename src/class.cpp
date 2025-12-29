@@ -28,19 +28,19 @@ bool SpaceShip::checkFireKey() {
 }
 void SpaceShip::move() {
     switch(this->key) {
-        case MOVE_UP:
+        case UP_KEY:
             if (this->yCoordinate < 1) break;
             this->yCoordinate--;
             break;
-        case MOVE_LEFT:
+        case LEFT_KEY:
             if (this->xCoordinate < 1) break;
             this->xCoordinate--;
             break;
-        case MOVE_DOWN:
+        case DOWN_KEY:
             if (this->yCoordinate > BOUNDARY_HEIGHT-1) break;
             this->yCoordinate++;
             break;
-        case MOVE_RIGHT:
+        case RIGHT_KEY:
             if (this->xCoordinate > BOUNDARY_LENGTH-1) break;
             this->xCoordinate++;
             break;

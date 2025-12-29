@@ -1,6 +1,7 @@
 #include <iostream>
 #include <conio.h>
 #include <vector>
+#include <Windows.h>
 #include "..\lib\functions.h"
 #include "..\lib\constants.h"
 #include "..\lib\class.h"
@@ -22,26 +23,20 @@ void intro() {
 //                      Input
 //############################################################
 void input() {
-    if (_kbhit()) {
-        switch( tolower(getch()) ) {
-            case 'w':
-                GameVariable::playerShip->setKey(MOVE_UP);
-                break;
-            case 'a':
-                GameVariable::playerShip->setKey(MOVE_LEFT);
-                break;
-            case 's':
-                GameVariable::playerShip->setKey(MOVE_DOWN);
-                break;
-            case 'd':
-                GameVariable::playerShip->setKey(MOVE_RIGHT);
-                break;
-            case ' ':
-                GameVariable::playerShip->setFireKey(true);
-                break;
-            default:
-                break;
-        }
+    if (GetAsyncKeyState(0x57)) {
+        GameVariable::playerShip->setKey(UP_KEY);
+    }
+    else if (GetAsyncKeyState(0x41)) {
+        GameVariable::playerShip->setKey(LEFT_KEY);
+    }
+    else if (GetAsyncKeyState(0x53)) {
+        GameVariable::playerShip->setKey(DOWN_KEY);
+    }
+    else if (GetAsyncKeyState(0x44)) {
+        GameVariable::playerShip->setKey(RIGHT_KEY);
+    }
+    else if (GetAsyncKeyState(0x20)) {
+        GameVariable::playerShip->setFireKey(1);
     }
 }
 
