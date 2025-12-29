@@ -1,4 +1,4 @@
-# **Space Shooter (v1.0)** 
+# **Space Shooter (v1.1)** 
 A retro game created in C++.
 > It is my first complete running project, open to suggestions, feedback is appreciated!
 ## **Features**
