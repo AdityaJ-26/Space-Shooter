@@ -23,9 +23,8 @@ g++ main.cpp src\functions.cpp src\class.cpp -o game.exe
 ```
 Run the game.exe file and play
 ## **Future Improvements**
-- [ ] Input buffer handling
-- [ ] Better interface (external dependency)
+- [X] Input buffer handling
 - [ ] Sounds, textures & other assets
 - [ ] Tick
-- [ ] More gameplay features
-- [ ] Score and score storing system
+- [ ] Game Menu
+- [ ] Score System
