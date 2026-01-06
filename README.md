@@ -14,7 +14,7 @@ A retro game created in C++.
   -Space-Shooter\
     |- [main.cpp](/main.cpp)   (main() file)\
     |- [src](/src)       (source files)\
-    |- [lib](/lib)       (header files)\
+    |- [include](/include)       (header files)\
 ## **Compiling**
 Don't have a CMake or any auto build files\
 Use command below in terminal inside main directory to manually compile code\
@@ -26,5 +26,5 @@ Run the game.exe file and play
 - [X] Input buffer handling
 - [ ] Sounds, textures & other assets
 - [ ] Tick
-- [ ] Game Menu
-- [ ] Score System
+- [X] Game Menu
+- [X] Score System
