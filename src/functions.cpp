@@ -2,9 +2,10 @@
 #include <conio.h>
 #include <vector>
 #include <Windows.h>
-#include "..\lib\functions.h"
-#include "..\lib\constants.h"
-#include "..\lib\class.h"
+#include "..\include\functions.h"
+#include "..\include\constants.h"
+#include "..\include\class.h"
+#include "..\include\menus.h"
 
 
 void intro() {
@@ -13,10 +14,65 @@ void intro() {
     std::cout << "||||||  ||||||  ||||||  ||      ||||||    ||||||  ||||||  ||  ||  ||  ||    ||    |||||  |||||" << std::endl;
     std::cout << "    ||  ||      ||  ||  ||      ||            ||  ||  ||  ||  ||  ||  ||    ||    ||     || ||" << std::endl;
     std::cout << "||||||  ||      ||  ||  ||||||  ||||||    ||||||  ||  ||  ||||||  ||||||    ||    |||||  ||  ||" << std::endl;
-    std::cout << "                                                                                           v1.0" << std::endl;
+    std::cout << "                                                                                           v2.0" << std::endl;
     std::cout << "Press Enter to Continue...";
     getchar();
     return;
+}
+
+int mainMenu() {
+    int opt;
+    MainMenu *menu = new MainMenu();
+    while (true) {
+        system("cls");
+        menu->printMenu();
+        opt = menu->opt();
+        menu->input();
+        Sleep(200);
+        if (menu->optSelected()) {
+            break;
+        }
+    }
+    return opt;
+}
+
+void logic() {
+    spawnObstacles();
+    fire();
+    playerCollisionCheck();
+    bulletHitCheck();
+    entityCheck();
+}
+
+void update() {
+    GameVariable::playerShip->move();
+    moveObstacles();
+    moveBullets();
+}
+
+void game() {
+    while (!GameVariable::gameOver) {
+        input();
+        update();
+        logic();
+        display();
+        Sleep(100);
+    }
+
+    if (GameVariable::gameOver) {
+        system("cls");
+        std::cout << "||||||      ||      |||    |||  ||||||    ||||||  |||    |||  ||||||  ||||||" << std::endl;
+        std::cout << "||         ||||     || |||| ||  ||        ||  ||   ||    ||   ||      ||  ||" << std::endl;
+        std::cout << "||||||    ||  ||    ||  ||  ||  ||||||    ||  ||    ||  ||    ||||||  ||||||" << std::endl;
+        std::cout << "||  ||   ||||||||   ||      ||  ||        ||  ||     ||||     ||      ||  ||" << std::endl;
+        std::cout << "||||||  ||      ||  ||      ||  ||||||    ||||||      ||      ||||||  ||  ||" << std::endl;
+    }
+}
+
+void quit() {
+    std::cout << std::endl << "Press Enter to Exit...";
+    getchar();
+    exit(0);
 }
 
 //############################################################
@@ -78,6 +134,11 @@ void display() {
         }
         std::cout << std::endl;
     }
+    std::cout << "SCORE - " << GameVariable::playerShip->getScore() << std::endl;
+    std::cout << "LIVES - ";
+    for (int i{ 0 }; i < GameVariable::playerShip->livesCount(); i++)
+        std::cout << "*";
+
 }
 
 
@@ -117,7 +178,7 @@ void playerCollisionCheck() {
     for (int i=0; i<obstacles.size();) {
         int x = obstacles[i]->getX(), y = obstacles[i]->getY();
         if (GameVariable::playerShip->matchCoordinates(x, y)) {
-            GameVariable::playerShip->healthUpdate(O2P_HIT_DAMAGE);
+            GameVariable::playerShip->livesUpdate();
             delete obstacles[i];
             obstacles.erase(obstacles.begin()+i);
         }
@@ -135,6 +196,7 @@ void bulletHitCheck() {
                 delete bullets[i];
                 bullets.erase(bullets.begin()+i);
                 hit = true;
+                GameVariable::playerShip->hit();
                 break;
             }
         }
@@ -143,7 +205,7 @@ void bulletHitCheck() {
 }
 void entityCheck() {
     //health check
-    if (GameVariable::playerShip->noHealth()) {
+    if (GameVariable::playerShip->livesCount() == 0) {
         delete(GameVariable::playerShip);
         GameVariable::gameOver = true;
     }
