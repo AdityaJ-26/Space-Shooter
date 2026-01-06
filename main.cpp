@@ -1,54 +1,37 @@
 #include <iostream>
 #include <windows.h>
 #include <vector>   
-#include "lib\class.h"
-#include "lib\constants.h"
-#include "lib\functions.h"
+#include <iomanip>
+#include "include\class.h"
+#include "include\constants.h"
+#include "include\functions.h"
+#include "include\menus.h"
 
-
-//############################################################
-void logic() {
-    spawnObstacles();
-    fire();
-    playerCollisionCheck();
-    bulletHitCheck();
-    entityCheck();
-}
-
-
-//############################################################
-void update() {
-    GameVariable::playerShip->move();
-    moveObstacles();
-    moveBullets();
-}
-
-
-//############################################################
-//                       Main
-//############################################################
 int main() {
 
     intro();
 
-    srand(time(0));
-    while (!GameVariable::gameOver) {
-        input();
-        update();
-        logic();
-        if (GameVariable::gameOver) break;
-        display();
-        Sleep(100);
+    int opt{ 0 };
+    while (true) {
+
+        opt = mainMenu();
+
+        if (opt == 1) {
+            std::string name = gameMenu();
+            GameVariable::playerShip->setName(name);
+            game();
+            std::cout << "NAME" << std::setw(24) << "SCORE" << std::endl;
+            std::cout << name << std::setw(22) << GameVariable::playerShip->getScore() << std::endl;
+            std::cout << std::endl << "Press Enter to Retur to Main Menu";
+            getchar();
+        }
+
+        if (opt == 2) {
+            quit();
+        }
     }
 
-    if (GameVariable::gameOver) {
-        system("cls");
-        std::cout << "||||||      ||      |||    |||  ||||||    ||||||  |||    |||  ||||||  ||||||" << std::endl;
-        std::cout << "||         ||||     || |||| ||  ||        ||  ||   ||    ||   ||      ||  ||" << std::endl;
-        std::cout << "||||||    ||  ||    ||  ||  ||  ||||||    ||  ||    ||  ||    ||||||  ||||||" << std::endl;
-        std::cout << "||  ||   ||||||||   ||      ||  ||        ||  ||     ||||     ||      ||  ||" << std::endl;
-        std::cout << "||||||  ||      ||  ||      ||  ||||||    ||||||      ||      ||||||  ||  ||" << std::endl;
-    }
+    srand(time(0));
     return 0;
 }
 

@@ -1,5 +1,6 @@
 #include <iostream>
-#include "..\lib\class.h"
+#include "..\include\class.h"
+
 
 //############################################################
 //                     Coordinate
@@ -9,65 +10,6 @@ Coordinate::Coordinate(int x, int y) {
     this->yCoordinate = y % BOUNDARY_HEIGHT;
 }
 
-//############################################################
-//                     SpaceShip
-//############################################################
-SpaceShip::SpaceShip(int x, int y) {
-    this->xCoordinate = x % BOUNDARY_LENGTH;
-    this->yCoordinate = y % BOUNDARY_HEIGHT;
-    this->key = IDLE;
-}
-void SpaceShip::setKey(InputKeys key) {
-    this->key = key;
-} 
-void SpaceShip::setFireKey(bool x) {
-    this->fireTrigger = x;
-}
-bool SpaceShip::checkFireKey() {
-    return this->fireTrigger;
-}
-void SpaceShip::move() {
-    switch(this->key) {
-        case UP_KEY:
-            if (this->yCoordinate < 1) break;
-            this->yCoordinate--;
-            break;
-        case LEFT_KEY:
-            if (this->xCoordinate < 1) break;
-            this->xCoordinate--;
-            break;
-        case DOWN_KEY:
-            if (this->yCoordinate > BOUNDARY_HEIGHT-1) break;
-            this->yCoordinate++;
-            break;
-        case RIGHT_KEY:
-            if (this->xCoordinate > BOUNDARY_LENGTH-1) break;
-            this->xCoordinate++;
-            break;
-        default:
-            break;
-    }
-    this->key = IDLE;
-}
-void SpaceShip::print() {
-    std::cout << "^";
-
-}
-bool SpaceShip::matchCoordinates(int x, int y) {
-    return (this->xCoordinate == x && this->yCoordinate == y);
-}
-int SpaceShip::getX() {
-    return this->xCoordinate;
-}
-int SpaceShip::getY() {
-    return this->yCoordinate;
-}
-void SpaceShip::healthUpdate(int damage) {
-    this->health -= damage;
-}
-bool SpaceShip::noHealth() {
-    return (this->health <= 0);
-}
 
 //############################################################
 //                     Obstacles
@@ -97,14 +39,6 @@ bool Obstacle::noHealth() {
     return (this->health <= 0);
 }
 
-//############################################################
-//                     Game Variables
-//############################################################
-SpaceShip* GameVariable::playerShip = new SpaceShip(BOUNDARY_LENGTH/2, BOUNDARY_HEIGHT-2);
-bool GameVariable::gameOver = false;
-std::vector<Obstacle*> GameVariable::obstacleList;
-std::vector<Bullet*> GameVariable::bulletList;
-
 
 //############################################################
 //                        Bullets
@@ -121,4 +55,83 @@ void Bullet::print() {
 }
 void Bullet::move() {
     this->yCoordinate--;
+} 
+
+
+//############################################################
+//                     SpaceShip
+//############################################################
+SpaceShip::SpaceShip(int x, int y) {
+    this->xCoordinate = x % BOUNDARY_LENGTH;
+    this->yCoordinate = y % BOUNDARY_HEIGHT;
+    this->key = IDLE;
 }
+void SpaceShip::setKey(InputKeys key) {
+    this->key = key;
+}
+void SpaceShip::setFireKey(bool x) {
+    this->fireTrigger = x;
+}
+bool SpaceShip::checkFireKey() {
+    return this->fireTrigger;
+}
+void SpaceShip::move() {
+    switch (this->key) {
+    case UP_KEY:
+        if (this->yCoordinate < 1) break;
+        this->yCoordinate--;
+        break;
+    case LEFT_KEY:
+        if (this->xCoordinate < 1) break;
+        this->xCoordinate--;
+        break;
+    case DOWN_KEY:
+        if (this->yCoordinate > BOUNDARY_HEIGHT - 1) break;
+        this->yCoordinate++;
+        break;
+    case RIGHT_KEY:
+        if (this->xCoordinate > BOUNDARY_LENGTH - 1) break;
+        this->xCoordinate++;
+        break;
+    default:
+        break;
+    }
+    this->key = IDLE;
+}
+void SpaceShip::print() {
+    std::cout << "^";
+
+}
+bool SpaceShip::matchCoordinates(int x, int y) {
+    return (this->xCoordinate == x && this->yCoordinate == y);
+}
+int SpaceShip::getX() {
+    return this->xCoordinate;
+}
+int SpaceShip::getY() {
+    return this->yCoordinate;
+}
+void SpaceShip::livesUpdate() {
+    this->lives--;
+}
+int SpaceShip::livesCount() const {
+    return this->lives;
+}
+void SpaceShip::hit() {
+    this->score++;
+}
+void SpaceShip::setName(std::string name) {
+    this->name = name;
+}
+int SpaceShip::getScore() const {
+    return this->score;
+}
+
+
+//############################################################
+//                     Game Variables
+//############################################################
+SpaceShip* GameVariable::playerShip = new SpaceShip(BOUNDARY_LENGTH/2, BOUNDARY_HEIGHT-2);
+bool GameVariable::gameOver = false;
+std::vector<Obstacle*> GameVariable::obstacleList;
+std::vector<Bullet*> GameVariable::bulletList;
